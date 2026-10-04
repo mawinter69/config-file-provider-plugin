@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 
 import org.jenkinsci.lib.configprovider.ConfigProvider;
 import org.jenkinsci.lib.configprovider.model.Config;
+import org.jenkinsci.lib.configprovider.model.ConfigFileManager;
 import org.jenkinsci.lib.configprovider.model.ContentType;
 import org.jenkinsci.plugins.configfiles.ConfigFileStore;
 import org.jenkinsci.plugins.configfiles.ConfigFilesManagement;
@@ -161,6 +162,17 @@ public class FolderConfigFileAction implements Action, ConfigFilesUIContract, St
         req.setAttribute("contentType", config.getProvider().getContentType());
         req.setAttribute("config", config);
         req.getView(this, JELLY_RESOURCES_PATH + "show.jelly").forward(req, rsp);
+    }
+
+    @Override
+    public void doUsage(StaplerRequest2 req, StaplerResponse2 rsp, @QueryParameter("id") String configId) throws IOException, ServletException {
+        folder.checkPermission(Item.EXTENDED_READ);
+        ConfigFileStore store = getStore();
+        Config config = store.getById(configId);
+        req.setAttribute("config", config);
+        req.setAttribute("usage", store.getUsage(configId));
+        req.setAttribute("usageTrackingEnabled", ConfigFileManager.isUsageTrackingEnabled());
+        req.getView(this, JELLY_RESOURCES_PATH + "usage.jelly").forward(req, rsp);
     }
 
     @Override
