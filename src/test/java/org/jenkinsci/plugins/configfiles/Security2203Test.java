@@ -32,6 +32,7 @@ import org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig;
 import org.jenkinsci.plugins.configfiles.maven.job.MvnGlobalSettingsProvider;
 import org.jenkinsci.plugins.configfiles.maven.job.MvnSettingsProvider;
 import org.jenkinsci.plugins.configfiles.sec.ProtectedCodeRunner;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.Issue;
@@ -57,6 +58,12 @@ class Security2203Test {
 
     private FreeStyleProject project;
 
+    @BeforeAll
+    static void enableManagePermission() {
+        // TODO remove when baseline contains https://github.com/jenkinsci/jenkins/pull/23873
+        Jenkins.MANAGE.setEnabled(true);
+    }
+
     @BeforeEach
     void setUpAuthorizationAndProject(JenkinsRule r) throws IOException {
         this.r = r;
@@ -72,7 +79,10 @@ class Security2203Test {
                 .to("projectConfigurer")
                 .grant(Jenkins.ADMINISTER)
                 .everywhere()
-                .to("administer"));
+                .to("administer")
+                .grant(Jenkins.MANAGE)
+                .everywhere()
+                .to("manager"));
     }
 
     /**
