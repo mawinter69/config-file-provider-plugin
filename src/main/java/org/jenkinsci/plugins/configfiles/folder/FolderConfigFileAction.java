@@ -40,6 +40,7 @@ import com.cloudbees.hudson.plugins.folder.AbstractFolder;
 import jenkins.model.TransientActionFactory;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.interceptor.RequirePOST;
+import org.kohsuke.stapler.verb.GET;
 import org.kohsuke.stapler.verb.POST;
 
 public class FolderConfigFileAction implements Action, ConfigFilesUIContract, StaplerProxy {
@@ -165,6 +166,7 @@ public class FolderConfigFileAction implements Action, ConfigFilesUIContract, St
     }
 
     @Override
+    @GET
     public void doUsage(StaplerRequest2 req, StaplerResponse2 rsp, @QueryParameter("id") String configId) throws IOException, ServletException {
         folder.checkPermission(Item.EXTENDED_READ);
         ConfigFileStore store = getStore();

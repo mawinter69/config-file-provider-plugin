@@ -50,6 +50,7 @@ import org.kohsuke.stapler.StaplerProxy;
 import org.kohsuke.stapler.StaplerRequest2;
 import org.kohsuke.stapler.StaplerResponse2;
 import org.kohsuke.stapler.interceptor.RequirePOST;
+import org.kohsuke.stapler.verb.GET;
 import org.kohsuke.stapler.verb.POST;
 
 /**
@@ -214,6 +215,9 @@ public class ConfigFilesManagement extends ManagementLink implements ConfigFiles
      * @throws ServletException
      */
     @Override
+    @GET
+    // lgtm[jenkins/no-permission-check]
+    // Permission check is done in the jelly file
     public void doUsage(StaplerRequest2 req, StaplerResponse2 rsp, @QueryParameter("id") String configId) throws IOException, ServletException {
         // permission handled in getTarget
 
