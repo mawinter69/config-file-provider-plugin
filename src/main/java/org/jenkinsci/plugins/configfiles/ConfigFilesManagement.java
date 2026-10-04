@@ -217,7 +217,6 @@ public class ConfigFilesManagement extends ManagementLink implements ConfigFiles
     @Override
     @GET
     // lgtm[jenkins/no-permission-check]
-    // Permission check is done in the jelly file
     public void doUsage(StaplerRequest2 req, StaplerResponse2 rsp, @QueryParameter("id") String configId) throws IOException, ServletException {
         // permission handled in getTarget
 
